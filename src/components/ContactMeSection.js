@@ -34,7 +34,7 @@ const LandingSection = () => {
       onOpen({type: 'success', message: 'Success message'})
       submit('/' , values)
       
-      
+      formik.resetForm();
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required("First Name is required"),
@@ -94,7 +94,7 @@ const LandingSection = () => {
                 />
                 <FormErrorMessage>{FormError}</FormErrorMessage>
               </FormControl>
-              <Button type="submit" onSubmit={submit} colorScheme="purple" width="full">
+              <Button type="submit" colorScheme="purple" width="full">
                 Submit
               </Button>
             </VStack>
