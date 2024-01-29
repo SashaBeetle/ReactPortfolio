@@ -16,13 +16,11 @@ import * as Yup from 'yup';
 import FullScreenSection from "./FullScreenSection";
 import useSubmit from "../hooks/useSubmit";
 import {useAlertContext} from "../context/alertContext";
-import { boolean } from "yup/lib/locale";
 
 const LandingSection = () => {
   const {isLoading, response, submit} = useSubmit();
   const { onOpen } = useAlertContext();
   const FormError = 'Required'
-  
 
   const formik = useFormik({
     initialValues: {
@@ -32,7 +30,6 @@ const LandingSection = () => {
       comment: '',
     },
     onSubmit: (values) => {
-      
       const { submit } = useSubmit();
       submit('/' , values)
 
@@ -59,17 +56,17 @@ const LandingSection = () => {
         <Box p={6} rounded="md" w="100%">
           <form>
             <VStack spacing={4}>
-              <FormControl isInvalid={false}>
+              <FormControl isInvalid={formik.touched.firstName && formik.errors.firstName}>
                 <FormLabel htmlFor="firstName">Name</FormLabel>
-                <Input
+                <Input {...formik.getFieldProps('firstName')}
                   id="firstName"
                   name="firstName"
                 />
                 <FormErrorMessage>{FormError}</FormErrorMessage>
               </FormControl>
-              <FormControl isInvalid={false}>
+              <FormControl isInvalid={formik.touched.email && formik.errors.email}>
                 <FormLabel htmlFor="email">Email Address</FormLabel>
-                <Input
+                <Input {...formik.getFieldProps('email')}
                   id="email"
                   name="email"
                   type="email"
@@ -86,9 +83,9 @@ const LandingSection = () => {
                   <option value="other">Other</option>
                 </Select>
               </FormControl>
-              <FormControl isInvalid={false}>
+              <FormControl isInvalid={formik.touched.comment && formik.errors.comment}>
                 <FormLabel htmlFor="comment">Your message</FormLabel>
-                <Textarea
+                <Textarea {...formik.getFieldProps('comment')}
                   id="comment"
                   name="comment"
                   height={250}
