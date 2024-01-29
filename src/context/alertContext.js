@@ -8,7 +8,7 @@ export const AlertProvider = ({ children }) => {
     // Type can be either "success" or "error"
     type: 'success',
     // Message to be displayed, can be any string
-    message: '',
+    message: 'Thanks for your submission Mark, we will get back to you shortly!',
   });
 
   return (
@@ -16,7 +16,7 @@ export const AlertProvider = ({ children }) => {
       value={{
         ...state,
         onOpen: (type, message) => setState({ isOpen: true, type, message }),
-        onClose: () => setState({ isOpen: false, type: '', message: '' }),
+        onClose: () => setState({ isOpen: false, type: '', message: '' }), //type: 'error', message: 'Something went wrong, please try again later!'
       }}
     >
       {children}

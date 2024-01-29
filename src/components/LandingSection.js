@@ -20,13 +20,10 @@ const LandingSection = () => (
   >
     <VStack spacing={3}>
         <Avatar src={img} size='3x' />
-      <Heading as='h4' size='sm' style={{paddingBottom: '20px'}}>{greeting}</Heading>
-      <Heading>{bio1}</Heading>
-      <Heading>{bio2}</Heading>
+        <Heading as='h4' size='sm' style={{paddingBottom: '20px'}}>{greeting}</Heading>
+        <Heading>{bio1}</Heading>
+        <Heading>{bio2}</Heading>
     </VStack>
-    
-    
-
   </FullScreenSection>
 );
 
