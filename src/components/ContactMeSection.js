@@ -20,7 +20,6 @@ import {useAlertContext} from "../context/alertContext";
 const LandingSection = () => {
   const {isLoading, response, submit} = useSubmit();
   const { onOpen } = useAlertContext();
-  const FormError = 'Required'
 
 
   const formik = useFormik({
@@ -30,25 +29,45 @@ const LandingSection = () => {
       type: '',
       comment: '',
     },
-    onSubmit: (values) => {
-     onOpen(submit('/', values))
+    OnSubmit: async (values) => {
+      try {
+        formik.setSubmitting(true);
+
+        const submitResponse = await submit(values);
+        if (submitResponse.type === "success") {
+          onOpen({
+            title: "Submission Successful",
+            description: `Thank you, ${values.firstName}! Your message has been sent successfully.`,
+            status: "success",
+          });
+
+          formik.resetForm();
+        } else {
+          onOpen({
+            title: "Submission Failed",
+            description: `Oops! Something went wrong. Please try again later.`,
+            status: "error",
+          });
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      } finally {
+        formik.setSubmitting(false);
+      }
     },
     validationSchema: Yup.object({
-      firstName: Yup.string().required("First Name is required"),
-      email: Yup.string().email("Invalid email address").required("Email is required"),
-      type: Yup.string().required("Type is required"),
-      comment: Yup.string().required("Comment is required"),
+      firstName: Yup.string().required("Required"),
+      email: Yup.string().email("Invalid email address").required("Required"),
+      type: Yup.string(),
+      comment: Yup.string()
+        .required("Required")
+        .min(25, "Must be at least 25 to 250 characters"),
     }),
   });
 
   useEffect(() => {
     if (response) {
-      // Handle response here (display alert, reset form)
-      onOpen({
-        type: response.type === "success" ? "success" : "error",
-        content: response.message === "succes" ? "Done!" : "Something wrong!"
-      });
-      formik.resetForm();
+      console.log("API Response:", response);
     }
   }, [response]);
 
@@ -66,7 +85,7 @@ const LandingSection = () => {
           Contact me
         </Heading>
         <Box p={6} rounded="md" w="100%">
-          <form>
+          <form onSubmit={formik.handleSubmit}>
             <VStack spacing={4}>
               <FormControl isInvalid={formik.touched.firstName && formik.errors.firstName}>
                 <FormLabel htmlFor="firstName">Name</FormLabel>
@@ -74,7 +93,7 @@ const LandingSection = () => {
                   id="firstName"
                   name="firstName"
                 />
-                <FormErrorMessage>{FormError}</FormErrorMessage>
+                <FormErrorMessage>{formik.errors.comment}</FormErrorMessage>
               </FormControl>
               <FormControl isInvalid={formik.touched.email && formik.errors.email}>
                 <FormLabel htmlFor="email">Email Address</FormLabel>
@@ -83,15 +102,13 @@ const LandingSection = () => {
                   name="email"
                   type="email"
                 />
-                <FormErrorMessage>{FormError}</FormErrorMessage>
+                <FormErrorMessage>{formik.errors.comment}</FormErrorMessage>
               </FormControl>
               <FormControl>
                 <FormLabel htmlFor="type">Type of enquiry</FormLabel>
                 <Select  id="type" name="type">
                   <option id='list' value="hireMe">Freelance project proposal</option>
-                  <option value="openSource">
-                    Open source consultancy session
-                  </option>
+                  <option value="openSource">Open source consultancy session</option>
                   <option value="other">Other</option>
                 </Select>
               </FormControl>
@@ -102,7 +119,7 @@ const LandingSection = () => {
                   name="comment"
                   height={250}
                 />
-                <FormErrorMessage>{FormError}</FormErrorMessage>
+                <FormErrorMessage>{formik.errors.comment}</FormErrorMessage>
               </FormControl>
               <Button type="submit" disabled={isLoading} colorScheme="purple"  width="full">
               {isLoading ? "Submitting..." : "Submit"}
