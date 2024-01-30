@@ -22,6 +22,7 @@ const LandingSection = () => {
   const { onOpen } = useAlertContext();
   const FormError = 'Required'
 
+
   const formik = useFormik({
     initialValues: {
       firstName: '',
@@ -30,11 +31,7 @@ const LandingSection = () => {
       comment: '',
     },
     onSubmit: (values) => {
-      
-      onOpen({type: 'success', message: 'Success message'})
-      submit('/' , values)
-      
-      
+     onOpen(submit('/', values))
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required("First Name is required"),
@@ -43,6 +40,19 @@ const LandingSection = () => {
       comment: Yup.string().required("Comment is required"),
     }),
   });
+
+  useEffect(() => {
+    if (response) {
+      // Handle response here (display alert, reset form)
+      onOpen({
+        type: response.type === "success" ? "success" : "error",
+        content: response.message === "succes" ? "Done!" : "Something wrong!"
+      });
+      formik.resetForm();
+    }
+  }, [response]);
+
+
 
   return (
     <FullScreenSection
@@ -94,8 +104,8 @@ const LandingSection = () => {
                 />
                 <FormErrorMessage>{FormError}</FormErrorMessage>
               </FormControl>
-              <Button type="submit" onSubmit={submit} colorScheme="purple" width="full">
-                Submit
+              <Button type="submit" disabled={isLoading} colorScheme="purple"  width="full">
+              {isLoading ? "Submitting..." : "Submit"}
               </Button>
             </VStack>
           </form>
@@ -104,5 +114,7 @@ const LandingSection = () => {
     </FullScreenSection>
   );
 };
+
+
 
 export default LandingSection;
