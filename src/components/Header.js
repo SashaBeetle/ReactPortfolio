@@ -37,6 +37,7 @@ const Header = () => {
   const boxRef = useRef(null);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
 
+
   const handleClick = (anchor) => () => {
     const id = `${anchor}-section`;
     const element = document.getElementById(id);
@@ -60,6 +61,7 @@ const Header = () => {
       console.log('Pre: ', previousScrollPosition);
       console.log(isScrollingUp)
 
+
       setPreviousScrollPosition(currentScrollPosition);
     };
   
@@ -69,7 +71,7 @@ const Header = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []); 
+  }, [previousScrollPosition]); 
 
 
   return (
