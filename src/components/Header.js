@@ -52,11 +52,11 @@ const Header = () => {
     const handleScroll = () => {
       
       const currentScrollPosition = window.scrollY;
-      const isScrollingUp = currentScrollPosition < previousScrollPosition;
+      const isScrollingUp = currentScrollPosition <= 0;
 
       const transformValue = isScrollingUp ? 'translateY(0)' : 'translateY(-200px)';
       boxRef.current.style.transform = transformValue;
-      console.log('y:', {transformValue})
+
       setPreviousScrollPosition(currentScrollPosition);
     };
   
