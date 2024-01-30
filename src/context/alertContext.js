@@ -16,7 +16,7 @@ export const AlertProvider = ({ children }) => {
       value={{
         ...state,
         onOpen: (type, message) => setState({ isOpen: true, type, message }),
-        onClose: () => setState({ isOpen: false, type: '', message: '' }), //type: 'error', message: 'Something went wrong, please try again later!'
+        onClose: () => setState({ isOpen: false, type: '', message: '' }),
       }}
     >
       {children}
