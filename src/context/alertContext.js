@@ -8,7 +8,7 @@ export const AlertProvider = ({ children }) => {
     // Type can be either "success" or "error"
     type: 'success',
     // Message to be displayed, can be any string
-    message: 'Thanks for your submission Mark, we will get back to you shortly!',
+    message: '',
   });
 
   return (
