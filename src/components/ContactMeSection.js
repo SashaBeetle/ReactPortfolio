@@ -32,7 +32,6 @@ const LandingSection = () => {
     OnSubmit: async (values) => {
       try {
         formik.setSubmitting(true);
-
         const submitResponse = await submit('https://john.com/contactme' , values);
         if (submitResponse.type === "success") {
           onOpen({
