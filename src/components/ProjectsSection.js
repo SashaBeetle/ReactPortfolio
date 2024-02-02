@@ -12,11 +12,11 @@ const projects = [
     link: "https://github.com/SashaBeetle/Zhuk.University.Tachka",
   },
   {
-    title: "React Infinite Scroll",
+    title: "Endless Runner",
     description:
-      "A scrollable bottom sheet with virtualisation support, native animations at 60 FPS and fully implemented in JS land 🔥️",
-    getImageSrc: () => require("../images/photo2.jpg"),
-    link: "",
+      "This is a little game, you can drive a car and collect Stars, even play to beat your score🔥️",
+    getImageSrc: () => require("../images/photo2.png"),
+    link: "https://github.com/SashaBeetle/Endless-runner-game",
   },
   {
     title: "Photo Gallery",
